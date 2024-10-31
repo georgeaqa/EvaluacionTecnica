@@ -9,6 +9,8 @@ interface Store {
   addProductToCart: (product: Product) => void;
   removeProductFromCart: (productId: number) => void;
   clearCart: () => void;
+  orders: Order[];
+  setOrders: (orders: Order[]) => void;
 }
 
 export const useStore = create<Store>((set) => {
@@ -27,5 +29,7 @@ export const useStore = create<Store>((set) => {
         ),
       })),
     clearCart: () => set({ productsCart: [] }),
+    orders: [],
+    setOrders: (orders: Order[]) => set({ orders }),
   };
 });

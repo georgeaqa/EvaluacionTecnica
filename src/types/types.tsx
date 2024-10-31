@@ -6,6 +6,7 @@ export interface Product {
 
 export interface Order {
   id: number;
+  created_at: string;
   order_detail: Product[];
   total: number;
   status: string;

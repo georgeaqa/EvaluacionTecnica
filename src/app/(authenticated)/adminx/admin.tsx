@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabase";
 import { CustomButton, CustomScreenWrapper } from "@/src/components";
 import { Order } from "@/src/types/types";
-import { updateOrderStatus } from "@/src/services/orderServices";
+import { getRealTime, updateOrderStatus } from "@/src/services/orderServices";
 const admin = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -36,21 +36,7 @@ const admin = () => {
     };
     fetchOrders();
 
-    let orderChannel = supabase
-      .channel("orders")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "orders",
-        },
-        handleEvents
-      )
-      .subscribe();
-    return () => {
-      orderChannel.unsubscribe();
-    };
+    getRealTime({ handleEvents });
   }, []);
 
   const renderItem = ({ item }: { item: Order }) => {
